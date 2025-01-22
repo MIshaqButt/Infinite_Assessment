@@ -52,37 +52,41 @@ class _PostPageState extends State<PostPage> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(120),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: AppBar(
-            backgroundColor: AppColor.appBar,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(
-                bottom: Radius.circular(20),
-                top: Radius.circular(20),
-              ),
-            ),
-            title: const Text(
-                  "Dating List",
-                  style: TextStyle(
-                    color: AppColor.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: AppBar(
+              backgroundColor: AppColor.appBar,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(20),
+                  top: Radius.circular(20),
                 ),
-            leading: const BackButton(
-              color: AppColor.white,
-            ),
-            bottom: PreferredSize(
+              ),
+              title: const Text(
+                "Dating List",
+                style: TextStyle(
+                  color: AppColor.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              leading: const BackButton(
+                color: AppColor.white,
+              ),
+              bottom: PreferredSize(
                 preferredSize: const Size.fromHeight(60),
                 child: Container(
-                  margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
+                  margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
                   child: TextField(
                     controller: _searchController,
                     style: const TextStyle(fontSize: 14),
                     decoration: InputDecoration(
                       hintText: "Search...",
-                      prefixIcon: const Icon(Icons.search_rounded, color: AppColor.black),
+                      prefixIcon: const Icon(
+                        Icons.search_rounded,
+                        color: AppColor.black,
+                      ),
                       filled: true,
                       fillColor: AppColor.textFieldBackground,
                       contentPadding: const EdgeInsets.symmetric(vertical: 0),
@@ -93,9 +97,11 @@ class _PostPageState extends State<PostPage> {
                     ),
                   ),
                 ),
+              ),
+
+              centerTitle: true,
+              elevation: 0,
             ),
-            centerTitle: true,
-            elevation: 0,
           ),
         ),
       ),
@@ -115,7 +121,7 @@ class _PostPageState extends State<PostPage> {
 
             final filteredPosts = state.posts
                 .where((post) =>
-                (post.name?.first?? '').toLowerCase().contains(_searchQuery))
+                (post.name?.first ?? '').toLowerCase().contains(_searchQuery))
                 .toList();
 
             if (filteredPosts.isEmpty) {
@@ -126,7 +132,8 @@ class _PostPageState extends State<PostPage> {
 
             return ListView.builder(
               controller: _scrollController,
-              itemCount: filteredPosts.length + (state.status == PostStatus.loading ? 1 : 0),
+              itemCount: filteredPosts.length +
+                  (state.status == PostStatus.loading ? 1 : 0),
               itemBuilder: (BuildContext context, int index) {
                 if (index >= filteredPosts.length) {
                   return const LoadingWidget();
@@ -134,10 +141,10 @@ class _PostPageState extends State<PostPage> {
                 return PostListItem(post: filteredPosts[index]);
               },
             );
-
           },
         ),
       ),
     );
+
   }
 }
