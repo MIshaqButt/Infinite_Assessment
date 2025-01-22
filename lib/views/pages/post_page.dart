@@ -50,6 +50,7 @@ class _PostPageState extends State<PostPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(120),
         child: SafeArea(
